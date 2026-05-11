@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title>PICasp</title>
+  <link rel="stylesheet" href="../assets/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Titlebar -->
+  <div id="titlebar">
+    <div id="titlebar-left">
+      <span id="titlebar-title">PICasp</span>
+      <div id="app-tabs">
+        <button class="app-tab active" data-panel="programmer">GUI</button>
+        <button class="app-tab"        data-panel="ide">IDE</button>
+      </div>
+    </div>
+    <div id="titlebar-controls">
+      <button id="btn-minimize" title="Minimizar">&#x2212;</button>
+      <button id="btn-maximize" title="Maximizar">&#x25A1;</button>
+      <button id="btn-close"    title="Cerrar">&#x2715;</button>
+    </div>
+  </div>
+
+  <!-- ── Panel Programador ───────────────────────────────────── -->
+  <div id="panel-programmer" class="app-panel active">
+    <div id="app-container">
+
+      <div id="panel-config">
+        <div class="config-group">
+          <label class="config-label">Puerto serie</label>
+          <div class="d-flex gap-2">
+            <select id="sel-port" class="form-select form-select-sm flex-grow-1">
+              <option value="">— Seleccionar —</option>
+            </select>
+            <button id="btn-refresh-ports" class="btn btn-sm btn-outline-secondary"
+                    title="Actualizar puertos">&#x21BA;</button>
+          </div>
+        </div>
+
+        <!-- Panel Programador — config-group del chip -->
+        <div class="config-group">
+          <label class="config-label">Chip</label>
+          <select id="sel-chip" class="form-select form-select-sm">
+            <optgroup label="PIC18F — DS41398B">
+              <option value="pic18f25k22">PIC18F25K22</option>
+            </optgroup>
+            <optgroup label="PIC18F — DS39632E">
+              <option value="pic18f2455">PIC18F2455</option>
+              <option value="pic18f2550">PIC18F2550</option>
+              <option value="pic18f4455">PIC18F4455</option>
+              <option value="pic18f4550">PIC18F4550</option>
+            </optgroup>
+            <optgroup label="PIC18F — DS39576C">
+              <option value="pic18f242">PIC18F242</option>
+              <option value="pic18f252">PIC18F252</option>
+              <option value="pic18f442">PIC18F442</option>
+              <option value="pic18f452">PIC18F452</option>
+            </optgroup>
+            <optgroup label="PIC16F — DS41196G">
+              <option value="pic16f627a">PIC16F627A</option>
+              <option value="pic16f628a">PIC16F628A</option>
+              <option value="pic16f648a">PIC16F648A</option>
+            </optgroup>
+            <optgroup label="PIC16F — DS39589C">
+              <option value="pic16f873a">PIC16F873A</option>
+              <option value="pic16f874a">PIC16F874A</option>
+              <option value="pic16f876a">PIC16F876A</option>
+              <option value="pic16f877a">PIC16F877A</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="config-group">
+          <label class="config-label">Archivo HEX</label>
+          <div class="d-flex gap-2">
+            <input id="inp-hex-path" type="text"
+                   class="form-control form-control-sm flex-grow-1"
+                   placeholder="Ningún archivo seleccionado" readonly>
+            <button id="btn-browse-hex" class="btn btn-sm btn-outline-secondary"
+                    title="Examinar">&#x1F4C2;</button>
+          </div>
+          <div id="hex-info" class="hex-info mt-1 mb-4"></div>
+        </div>
+
+        <div class="config-group">
+          <label class="config-label">Operaciones</label>
+          <div class="d-grid gap-2">
+
+            <div class="op-section-label">Flash</div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-primary btn-operation flex-fill" data-op="flash">
+                <span class="op-icon">⚡</span>Grabar
+              </button>
+              <button class="btn btn-outline-info btn-operation flex-fill" data-op="read-flash">
+                <span class="op-icon">📖</span>Leer
+              </button>
+              <button class="btn btn-outline-danger btn-operation flex-fill" data-op="erase-flash">
+                <span class="op-icon">🗑️</span>Borrar
+              </button>
+            </div>
+
+            <div class="op-section-label">EEPROM</div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-outline-warning btn-operation flex-fill" data-op="write-eeprom">
+                <span class="op-icon">⚡</span>Grabar
+              </button>
+              <button class="btn btn-outline-info btn-operation flex-fill" data-op="read-eeprom">
+                <span class="op-icon">📖</span>Leer
+              </button>
+              <button class="btn btn-outline-danger btn-operation flex-fill" data-op="erase-eeprom">
+                <span class="op-icon">🗑️</span>Borrar
+              </button>
+            </div>
+
+            <div class="op-section-label">Fuses / Config</div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-outline-warning btn-operation flex-fill" data-op="write-fuses">
+                <span class="op-icon">⚡</span>Grabar
+              </button>
+              <button class="btn btn-outline-info btn-operation flex-fill" data-op="read-fuses">
+                <span class="op-icon">📖</span>Leer
+              </button>
+              <button id="btn-fuses-config"
+                      class="btn btn-outline-secondary btn-operation flex-fill">
+                <span class="op-icon">⚙️</span>Config
+              </button>
+            </div>
+
+            <div class="op-section-label">Utilidades</div>
+            <button class="btn btn-outline-info btn-operation flex-fill" data-op="dump">
+              <span class="op-icon">💾</span>Dump Completo
+            </button>
+            <button id="btn-open-fw-modal"
+                    class="btn btn-outline-warning btn-flash flex-fill">
+              <span class="op-icon">⚡</span>Grabar Firmware
+            </button>
+            <button id="btn-open-bl-modal"
+                    class="btn btn-outline-danger btn-flash flex-fill">
+              <span class="op-icon">🔌</span>Grabar Bootloader
+            </button>
+            <button id="btn-open-xc8-modal"
+                    class="btn btn-outline-secondary btn-flash flex-fill">
+              <span class="op-icon">🔧</span>Instalar XC8
+            </button>
+            <button class="btn btn-outline-secondary btn-operation flex-fill" data-op="fw-version">
+              <span class="op-icon">🔧</span>Versión Firmware
+            </button>
+
+          </div>
+        </div>
+      </div>
+
+      <div id="panel-output">
+        <div id="progress-container">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <span id="progress-label" class="progress-label">Listo</span>
+            <span id="progress-pct"   class="progress-pct">—</span>
+          </div>
+          <div class="progress" style="height: 8px;">
+            <div id="progress-bar" class="progress-bar progress-bar-striped"
+                 role="progressbar" style="width: 0%"></div>
+          </div>
+          <button id="btn-cancel" class="btn btn-danger w-100 d-none mt-2">
+            ⛔ Cancelar Operación
+          </button>
+        </div>
+
+        <div id="log-header">
+          <span>Log de operaciones</span>
+          <button id="btn-clear-log" class="btn btn-sm btn-link">🗑️</button>
+        </div>
+        <div id="log-container">
+          <div id="log-content"></div>
+        </div>
+
+        <div id="status-bar">
+          <span id="status-text">Listo</span>
+          <span id="status-right">
+            PICasp v1.0.0
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Panel IDE ────────────────────────────────────────────── -->
+  <div id="panel-ide" class="app-panel">
+
+    <!-- Toolbar IDE -->
+    <div id="ide-toolbar">
+
+      <div class="ide-toolbar-group">
+        <select id="ide-sel-port" class="form-select form-select-sm ide-select-port">
+          <option value="">— Puerto —</option>
+        </select>
+        <button id="ide-btn-refresh-port" class="btn btn-sm btn-outline-secondary">&#x21BA;</button>
+      </div>
+
+      <div class="ide-toolbar-group ide-toolbar-actions">
+        <div class="ide-divider"></div>
+        <button id="btn-ide-new-project"  class="btn btn-sm btn-outline-secondary" title="Nuevo Proyecto">📁</button>
+        <button id="btn-ide-open-project" class="btn btn-sm btn-outline-secondary" title="Abrir Proyecto">📂</button>
+        <button id="btn-ide-save"         class="btn btn-sm btn-outline-secondary" title="Guardar (Ctrl+S)" disabled>&#x1F4BE;</button>
+        <button id="btn-ide-libs" class="btn btn-sm btn-outline-secondary" title="Gestor de Librerías" disabled>📦</button>
+        <button id="ide-files-btn-close"  class="btn btn-sm btn-outline-secondary" title="Cerrar Proyecto"  disabled>✕</button>
+        <div class="ide-divider"></div>
+        <button id="btn-ide-build"        class="btn btn-sm btn-outline-info"    title="Compilar (F5)"        disabled>&#x1F528;</button>
+        <button id="btn-ide-build-flash"  class="btn btn-sm btn-primary"         title="Compilar y Grabar (F6)" disabled>&#x26A1;</button>
+        <button id="btn-ide-stop"         class="btn btn-sm btn-outline-danger d-none" title="Cancelar">&#x23F9;</button>
+      </div>
+
+      <!-- Estado XC8 -->
+      <div class="ide-toolbar-group" style="margin-left:auto;">
+        <span id="xc8-indicator" class="indicator indicator-warn"></span>
+        <span id="xc8-label" style="font-size:11px;color:var(--text-muted);">XC8...</span>
+      </div>
+    </div>
+
+    <!-- Barra de tabs -->
+    <div id="ide-tabs-bar" style="display:none"></div>
+
+    <!-- Cuerpo IDE: sidebar + resizer + editor -->
+    <div id="ide-body">
+
+      <!-- Sidebar izquierdo -->
+      <div id="ide-sidebar">
+
+        <div id="ide-sidebar-tabs">
+          <button class="ide-sidebar-tab active" data-sidetab="log">LOGS</button>
+          <button class="ide-sidebar-tab"        data-sidetab="terminal">TERMINAL</button>
+          <button class="ide-sidebar-tab"        data-sidetab="files">ARCHIVOS</button>
+        </div>
+
+        <!-- Tab: LOGS — output + errores unificados -->
+        <div id="ide-log-container" class="ide-sidebar-content">
+          <div id="ide-log-content"></div>
+          <div id="ide-errors-section" class="d-none">
+            <div class="ide-errors-header">⚠ Errores y advertencias</div>
+            <div id="ide-errors-content"></div>
+          </div>
+        </div>
+
+        <!-- Tab: TERMINAL — Monitor serie -->
+        <div id="ide-terminal-container" class="ide-sidebar-content d-none">
+
+          <!-- Toolbar de conexión -->
+          <div id="serial-toolbar">
+            <select id="serial-sel-port" class="form-select form-select-sm">
+              <option value="">— Puerto —</option>
+            </select>
+            <select id="serial-sel-baud" class="form-select form-select-sm">
+              <option value="9600" selected>9600</option>
+              <option value="19200">19200</option>
+              <option value="38400">38400</option>
+              <option value="57600">57600</option>
+              <option value="115200">115200</option>
+            </select>
+            <button id="serial-btn-connect" class="btn btn-sm btn-outline-success">⚡</button>
+          </div>
+
+          <!-- Output -->
+          <div id="serial-output-container">
+            <div id="serial-output"></div>
+          </div>
+
+          <!-- Input -->
+          <div id="serial-input-bar">
+            <select id="serial-sel-ending" class="form-select form-select-sm">
+              <option value="">Sin salto</option>
+              <option value="\r\n" selected>CR+LF</option>
+              <option value="\r">CR</option>
+              <option value="\n">LF</option>
+            </select>
+            <input id="serial-input" type="text" class="form-control form-control-sm"
+                  placeholder="Enviar..." spellcheck="false" autocomplete="off" disabled>
+            <button id="serial-btn-send" class="btn btn-sm btn-outline-secondary" disabled>↵</button>
+            <button id="serial-btn-clear" class="btn btn-sm btn-outline-secondary">🗑️</button>
+          </div>
+
+          <!-- Opciones extras -->
+          <div id="serial-options-bar">
+            <label class="serial-option-label">
+              <input type="checkbox" id="serial-chk-autoscroll" checked>
+              <span>Autoscroll</span>
+            </label>
+            <label class="serial-option-label">
+              <input type="checkbox" id="serial-chk-timestamp">
+              <span>Timestamp</span>
+            </label>
+          </div>
+
+        </div>
+
+        <!-- Tab: Archivos — panel completo con toolbar + árbol -->
+        <div id="ide-files-panel" class="d-none"
+             style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
+
+          <!-- Toolbar estático del explorador -->
+          <div id="ide-files-toolbar" style="display:none">
+            <span id="ide-files-project-name"></span>
+            <button id="ide-files-btn-newfile"   title="Nuevo Archivo .c"      disabled>📄</button>
+            <button id="ide-files-btn-newheader" title="Nuevo Archivo .h"      disabled>📋</button>
+            <button id="ide-files-btn-newfolder" title="Nueva Carpeta"         disabled>📁</button>
+            <button id="ide-files-btn-refresh"   title="Actualizar Archivos"   disabled>↻</button>
+          </div>
+
+          <!-- Árbol de archivos -->
+          <div id="ide-files-container"></div>
+
+        </div>
+
+        <!-- Status bar del sidebar -->
+        <div id="ide-sidebar-status">
+          <span id="ide-status-chip"></span>
+          <span id="ide-cursor-pos" class="ide-cursor">Ln 1, Col 1</span>
+        </div>
+
+      </div>
+
+      <!-- Resizer drag handle -->
+      <div id="ide-sidebar-resizer"></div>
+
+      <!-- Editor Monaco -->
+      <div id="monaco-container"></div>
+
+    </div>
+  </div>
+
+  <!-- ── Modal Nuevo Proyecto ────────────────────────────────── -->
+  <div id="new-project-modal"
+      style="display:none;position:fixed;inset:0;z-index:2000;
+              background:rgba(0,0,0,0.6);align-items:center;justify-content:center;">
+    <div style="background:var(--bg-panel);border:1px solid var(--border-color);
+                border-radius:10px;padding:24px;width:440px;display:flex;
+                flex-direction:column;gap:16px;">
+
+      <div style="font-size:14px;font-weight:600;color:var(--text-primary);
+                  padding-bottom:12px;border-bottom:1px solid var(--border-color);">
+        Nuevo Proyecto
+      </div>
+
+      <!-- Nombre -->
+      <div style="display:flex;flex-direction:column;gap:5px;">
+        <label class="config-label">Nombre del proyecto</label>
+        <input id="np-name" type="text" class="form-control form-control-sm"
+              placeholder="MiProyecto" spellcheck="false" autocomplete="off">
+        <span id="np-error" style="font-size:11px;color:var(--accent-red);min-height:16px;"></span>
+      </div>
+
+      <!-- Chip + Oscilador -->
+      <div style="display:flex;gap:10px;">
+        <!-- Modal Nuevo Proyecto — selector de chip/board -->
+        <div style="flex:1;display:flex;flex-direction:column;gap:5px;">
+          <label class="config-label">Chip / Board</label>
+          <select id="np-chip" class="form-select form-select-sm">
+
+            <!-- ── PICasp Boards ──────────────────────────── -->
+            <optgroup label="PICasp Boards">
+              <option value="picasp_board_k22"> 🔌 PICasp Board K22</option>
+              <option value="picasp_board_2550">🔌 PICasp Board 2550</option>
+              <option value="picasp_board_252"> 🔌 PICasp Board 252</option>
+            </optgroup>
+
+            <!-- ── PIC18F (solo USB-ICSP) ────────────────── -->
+            <optgroup label="PIC18F — DS41398B">
+              <option value="pic18f25k22">PIC18F25K22</option>
+            </optgroup>
+            <optgroup label="PIC18F — DS39632E">
+              <option value="pic18f2455">PIC18F2455</option>
+              <option value="pic18f2550">PIC18F2550</option>
+              <option value="pic18f4455">PIC18F4455</option>
+              <option value="pic18f4550">PIC18F4550</option>
+            </optgroup>
+            <optgroup label="PIC18F — DS39576C">
+              <option value="pic18f242">PIC18F242</option>
+              <option value="pic18f252">PIC18F252</option>
+              <option value="pic18f442">PIC18F442</option>
+              <option value="pic18f452">PIC18F452</option>
+            </optgroup>
+
+            <!-- ── PIC16F (solo USB-ICSP) ────────────────── -->
+            <optgroup label="PIC16F — DS41196G">
+              <option value="pic16f627a">PIC16F627A</option>
+              <option value="pic16f628a">PIC16F628A</option>
+              <option value="pic16f648a">PIC16F648A</option>
+            </optgroup>
+            <optgroup label="PIC16F — DS39589C">
+              <option value="pic16f873a">PIC16F873A</option>
+              <option value="pic16f874a">PIC16F874A</option>
+              <option value="pic16f876a">PIC16F876A</option>
+              <option value="pic16f877a">PIC16F877A</option>
+            </optgroup>
+
+          </select>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:5px;">
+          <label class="config-label">Oscilador</label>
+          <select id="np-osc" class="form-select form-select-sm">
+            <!-- poblado dinámicamente desde OSC_OPTIONS -->
+          </select>
+        </div>
+      </div>
+
+      <!-- Modo de grabación — controlado automáticamente por el IDE -->
+      <div style="display:flex;flex-direction:column;gap:5px;">
+        <label class="config-label">Modo de grabación</label>
+        <select id="np-prog-mode" class="form-select form-select-sm" disabled style="opacity:0.7;">
+          <option value="icsp">⚡ USB-ICSP</option>
+          <option value="bootloader">🔌 USB-Serial (Bootloader)</option>
+        </select>
+        <span id="np-prog-mode-hint"
+              style="font-size:11px;color:var(--text-muted);margin-top:2px;">
+          Se determina automáticamente según el chip/board seleccionado.
+        </span>
+      </div>
+
+      <!-- Botones -->
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px;">
+        <button id="np-btn-cancel" class="btn btn-sm btn-outline-secondary">Cancelar</button>
+        <button id="np-btn-ok"     class="btn btn-sm btn-primary">Crear proyecto</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Modal Firmware ──────────────────────────────────────── -->
+  <div class="modal fade" id="fw-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content fuses-modal-content">
+        <div class="modal-header fuses-modal-header">
+          <h5 class="modal-title">⚡ Grabar Firmware PICasp en Arduino</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-3">
+          <div class="fw-info-box mb-3">
+            <div class="fw-info-row">
+              <span class="fw-info-label">Firmware</span>
+              <span class="fw-info-value">PICasp v1.0.0</span>
+            </div>
+            <div class="fw-info-row">
+              <span class="fw-info-label">MCU</span>
+              <span class="fw-info-value">ATmega328P (Uno / Nano)</span>
+            </div>
+            <div class="fw-info-row">
+              <span class="fw-info-label">Actual en Arduino</span>
+              <span class="fw-info-value" id="fw-current-version">—</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="config-label">Puerto del Arduino</label>
+            <div class="d-flex gap-2">
+              <select id="fw-sel-port" class="form-select form-select-sm flex-grow-1">
+                <option value="">— Seleccionar —</option>
+              </select>
+              <button id="fw-btn-refresh" class="btn btn-sm btn-outline-secondary">&#x21BA;</button>
+              <button id="fw-btn-check"   class="btn btn-sm btn-outline-info">🔍</button>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="fw-baud-tip mt-1">Firmware PICasp requiere bootloader Arduino a 115200 baud.</div>
+          </div>
+          <div class="fw-log-header">Log avrdude</div>
+          <div id="fw-log-container"><div id="fw-log-content"></div></div>
+          <div class="mt-2">
+            <div class="progress" style="height: 6px;">
+              <div id="fw-progress-bar" class="progress-bar" style="width:0%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer fuses-modal-footer">
+          <button type="button" class="btn btn-outline-secondary btn-sm"
+                  id="fw-btn-cancel-modal">Cancelar</button>
+          <button type="button" class="btn btn-primary btn-sm" id="fw-btn-flash">
+            ⚡ Grabar Firmware
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Modal Bootloader ────────────────────────────────────── -->
+  <div class="modal fade" id="bl-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content fuses-modal-content">
+        <div class="modal-header fuses-modal-header">
+          <h5 class="modal-title">🔌 Grabar Bootloader PICasp Board</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-3">
+
+          <div class="fw-info-box mb-3">
+            <div class="fw-info-row">
+              <span class="fw-info-label">Programador</span>
+              <span class="fw-info-value">PICasp USB-ICSP (Arduino as ICSP)</span>
+            </div>
+            <div class="fw-info-row">
+              <span class="fw-info-label">Protocolo</span>
+              <span class="fw-info-value">ICSP</span>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="config-label">Bootloader</label>
+            <select id="bl-sel-board" class="form-select form-select-sm">
+              <option value="bootloader-k22">PICasp Board K22  (PIC18F25K22)</option>
+              <option value="bootloader-2550">PICasp Board 2550 (PIC18F2550)</option>
+              <option value="bootloader-252">PICasp Board 252  (PIC18F252)</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="config-label">Puerto USB-ICSP</label>
+            <div class="d-flex gap-2">
+              <select id="bl-sel-port" class="form-select form-select-sm flex-grow-1">
+                <option value="">— Seleccionar —</option>
+              </select>
+              <button id="bl-btn-refresh" class="btn btn-sm btn-outline-secondary">&#x21BA;</button>
+            </div>
+          </div>
+
+          <div class="fw-log-header">Log</div>
+          <div id="bl-log-container"><div id="bl-log-content"></div></div>
+          <div class="mt-2">
+            <div class="progress" style="height: 6px;">
+              <div id="bl-progress-bar" class="progress-bar" style="width:0%"></div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer fuses-modal-footer">
+          <button type="button" class="btn btn-outline-secondary btn-sm"
+                  id="bl-btn-cancel-modal">Cancelar</button>
+          <button type="button" class="btn btn-primary btn-sm" id="bl-btn-flash">
+            🔌 Grabar Bootloader
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Modal Fuses ─────────────────────────────────────────── -->
+  <div class="modal fade" id="fuses-modal" tabindex="-1"
+       aria-labelledby="fuses-modal-title" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content fuses-modal-content">
+        <div class="modal-header fuses-modal-header">
+          <h5 class="modal-title" id="fuses-modal-title">Configurar Fuses</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body fuses-modal-body" id="fuses-modal-body"></div>
+        <div class="fuses-hex-summary">
+          <div class="fuses-hex-row">
+            <span class="fuses-hex-label">Config Word</span>
+            <input id="fuses-hex-input" type="text"
+                   class="form-control form-control-sm fuses-hex-input"
+                   placeholder="0x3FFF" maxlength="20">
+            <span id="fuses-hex-value" class="fuses-hex-display">—</span>
+          </div>
+          <div class="fuses-bin-row">
+            <span class="fuses-hex-label">Binary</span>
+            <span id="fuses-bin-value" class="fuses-bin-display">—</span>
+          </div>
+          <div id="fuses-bit-bar" class="fuses-bit-bar"></div>
+        </div>
+        <div class="modal-footer fuses-modal-footer">
+          <button type="button" class="btn btn-outline-secondary btn-sm"
+                  data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-warning btn-sm"
+                  onclick="window.fusesModal.write()">✏️ Grabar Fuses</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Modal Gestor de Librerías ───────────────────────────── -->
+  <div class="modal fade" id="lib-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content fuses-modal-content">
+        <div class="modal-header fuses-modal-header">
+          <h5 class="modal-title">📦 Gestor de Librerías</h5>
+          <button type="button" class="btn-close btn-close-white" id="lib-btn-close-modal"></button>
+        </div>
+        <div class="modal-body p-3">
+
+          <!-- Instalar nueva librería -->
+          <div class="mb-3">
+            <label class="config-label">URL de GitHub</label>
+            <input id="lib-inp-url" type="text"
+                  class="form-control form-control-sm"
+                  placeholder="https://github.com/usuario/libreria"
+                  spellcheck="false" autocomplete="off">
+            <div id="lib-url-error"
+                style="font-size:11px;color:var(--accent-red);min-height:16px;margin-top:4px;">
+            </div>
+          </div>
+
+          <!-- Selector de versión + botón instalar -->
+          <div class="mb-3" id="lib-version-group" style="display:none">
+            <div class="d-flex gap-2">
+              <select id="lib-sel-version" class="form-select form-select-sm flex-grow-1">
+                <option value="">— Seleccionar versión —</option>
+              </select>
+              <button id="lib-btn-install" class="btn btn-sm btn-primary">
+                ⬇ Instalar
+              </button>
+            </div>
+          </div>
+
+          <!-- Log de instalación -->
+          <div id="lib-log-header" class="fw-log-header" style="display:none">Log</div>
+          <div id="lib-log-container" style="display:none">
+            <div id="lib-log-content"></div>
+          </div>
+
+          <!-- Separador -->
+          <hr style="border-color:var(--border-color);margin:12px 0;">
+
+          <!-- Librerías instaladas -->
+          <div>
+            <label class="config-label">Librerías instaladas</label>
+            <div id="lib-installed-list" style="margin-top:6px;">
+              <div class="lib-empty">Sin librerías instaladas en este proyecto.</div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer fuses-modal-footer">
+          <button type="button" class="btn btn-outline-secondary btn-sm"
+                  id="lib-btn-cancel">Cerrar</button>
+          <button type="button" class="btn btn-sm btn-outline-info"
+                  id="lib-btn-search">🔍 Buscar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- ── Modal Instalar XC8 ──────────────────────────────────── -->
+  <div class="modal fade" id="xc8-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content fuses-modal-content">
+        <div class="modal-header fuses-modal-header">
+          <h5 class="modal-title">🔧 Instalar MPLAB XC8</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-3">
+
+          <div class="fw-info-box mb-3">
+            <div class="fw-info-row">
+              <span class="fw-info-label">Compilador</span>
+              <span class="fw-info-value">MPLAB XC8</span>
+            </div>
+            <div class="fw-info-row">
+              <span class="fw-info-label">Versión</span>
+              <span class="fw-info-value">v3.10</span>
+            </div>
+            <div class="fw-info-row">
+              <span class="fw-info-label">Desarrollador</span>
+              <span class="fw-info-value">Microchip Technology</span>
+            </div>
+            <div class="fw-info-row">
+              <span class="fw-info-label">Estado</span>
+              <span class="fw-info-value" id="xc8-modal-status">Verificando...</span>
+            </div>
+          </div>
+
+          <div class="fw-info-box mb-3" style="font-size:11px;color:var(--text-muted);line-height:1.6;">
+            XC8 es el compilador oficial de Microchip para PIC. PICasp lo utiliza
+            para compilar proyectos desde el IDE. 
+          </div>
+
+          <div class="fw-log-header">Estado</div>
+          <div id="xc8-log-container" style="height:160px;overflow-y:auto;background:var(--bg-dark,#0a0a14);border:1px solid var(--border-color);border-radius:4px;padding:6px 8px;margin-bottom:8px;">
+            <div id="xc8-log-content"></div>
+          </div>
+          <div class="mt-1">
+            <div class="progress" style="height: 6px;">
+              <div id="xc8-progress-bar" class="progress-bar" style="width:0%"></div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer fuses-modal-footer">
+          <button type="button" class="btn btn-outline-secondary btn-sm"
+                  data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary btn-sm"
+                  id="xc8-btn-download">
+            ⬇ Descargar XC8
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Scripts ─────────────────────────────────────────────── -->
+  <script src="../assets/bootstrap.bundle.min.js"></script>
+  <script src="fuses-config.js"></script>
+  <script src="fuses-modal.js"></script>
+  <script src="fw-modal.js"></script>
+  <script src="bl-modal.js"></script>
+  <script src="serial-monitor.js"></script>
+  <script src="lib-manager.js"></script>
+  <script src="xc8-modal.js"></script>
+  <script src="app.js"></script>
+  <script src="../assets/loader.min.js"></script>
+  <script src="editor.js"></script>
+
+</body>
+</html>

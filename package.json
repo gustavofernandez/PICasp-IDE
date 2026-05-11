@@ -1,0 +1,59 @@
+{
+  "name": "picasp-ide",
+  "version": "1.0.0",
+  "description": "PIC Arduino Serial Programmer — IDE",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder build --win --x64"
+  },
+  "keywords": ["pic", "programmer", "arduino", "microchip"],
+  "author": "Gustavo Fernández <gustavoo.fernandez@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "33.0.0",
+    "electron-builder": "25.0.0"
+  },
+  "build": {
+    "appId": "com.picasp.ide",
+    "productName": "PICasp",
+    "asar": true,
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**/*",
+      "assets/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "python/",
+        "to": "python/",
+        "filter": ["**/*"]
+      },
+      {
+        "from": "hal/",
+        "to": "hal/",
+        "filter": ["**/*"]
+      }
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "assets/icon.ico",
+      "uninstallerIcon": "assets/icon.ico",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  },
+  "dependencies": {
+    "node-fetch": "2.7.0",
+    "serialport": "12.0.0"
+  }
+}
