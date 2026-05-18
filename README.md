@@ -42,11 +42,11 @@
 
 | Familia | Chips | Datasheet |
 |---------|-------|-----------|
-| PIC18F | 2455, 2550, 4455, 4550 | DS39632E — bloque 32 B |
-| PIC18F | 242, 252, 442, 452 | DS39576C — bloque 8 B |
+| PIC18F | 2455, 2550, 4455, 4550 | DS39632E |
+| PIC18F | 242, 252, 442, 452 | DS39576C |
 | PIC18F | 25K22 | DS41398B — bloque 64 B |
-| PIC16F | 627A, 628A, 648A | DS41196G — word 14 bits |
-| PIC16F | 873A, 874A, 876A, 877A | DS39589C — word 14 bits |
+| PIC16F | 627A, 628A, 648A | DS41196G |
+| PIC16F | 873A, 874A, 876A, 877A | DS39589C |
 
 ### Modo Bootloader USB-Serial (PICasp Boards)
 
