@@ -126,8 +126,6 @@ picasp/
 │   ├── picasp.h             # HAL principal — API estilo Arduino v1.0.0
 │   ├── picasp_objects.c     # Instancias globales (Serial, Wire, SPI, EEPROM, DAC)
 │   └── common/              # HALs individuales por periférico y familia de chip
-├── arduino/
-│   └── PICasp.ino           # Firmware del programador USB-ICSP para Arduino Uno/Nano
 └── assets/                  # Íconos y recursos estáticos
 ```
 ---
