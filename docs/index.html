@@ -89,6 +89,12 @@
       border-radius: 10px;
       border: 1px solid #e0e0e0;
       box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      cursor: zoom-in;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .screenshots img:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.13);
     }
 
     /* CARACTERÍSTICAS */
@@ -132,6 +138,50 @@
       margin-top: 60px;
     }
     footer a { color: #2563eb; text-decoration: none; }
+
+    /* LIGHTBOX */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      cursor: zoom-out;
+      animation: fadeIn 0.2s ease;
+    }
+    .lightbox.active { display: flex; }
+    .lightbox img {
+      max-width: 92vw;
+      max-height: 88vh;
+      border-radius: 10px;
+      box-shadow: 0 8px 48px rgba(0,0,0,0.6);
+      cursor: default;
+      animation: zoomIn 0.2s ease;
+    }
+    .lightbox .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 28px;
+      color: #fff;
+      font-size: 2rem;
+      cursor: pointer;
+      line-height: 1;
+      opacity: 0.8;
+      transition: opacity 0.15s;
+      user-select: none;
+    }
+    .lightbox .close-btn:hover { opacity: 1; }
+    .lightbox .caption {
+      position: absolute;
+      bottom: 24px;
+      color: #ccc;
+      font-size: 0.9rem;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes zoomIn { from { transform: scale(0.93); } to { transform: scale(1); } }
   </style>
 </head>
 <body>
@@ -158,16 +208,16 @@
 
 <!-- CAPTURAS -->
 <section>
-  <h2>📸 Capturas de pantalla</h2>
+  <h2>Capturas de pantalla</h2>
   <div class="screenshots">
-    <img src="../assets/screenshot-ide.png"  alt="Editor IDE PICasp" />
-    <img src="../assets/screenshot-gui.png"  alt="Panel programador PICasp" />
+    <img src="../assets/screenshot-ide.png" alt="Editor IDE PICasp" />
+    <img src="../assets/screenshot-gui.png" alt="Panel programador PICasp" />
   </div>
 </section>
 
 <!-- CARACTERÍSTICAS -->
 <section>
-  <h2>✨ Características</h2>
+  <h2>Características</h2>
   <div class="features">
     <div class="feature-card">
       <div class="icon">🖥️</div>
@@ -189,14 +239,10 @@
 
 <!-- CHIPS SOPORTADOS -->
 <section>
-  <h2>🔌 Chips soportados</h2>
+  <h2>Chips soportados</h2>
   <table>
     <thead>
-      <tr>
-        <th>Modo</th>
-        <th>Familia</th>
-        <th>Chips</th>
-      </tr>
+      <tr><th>Modo</th><th>Familia</th><th>Chips</th></tr>
     </thead>
     <tbody>
       <tr><td>USB-ICSP</td><td>PIC18F</td><td>2455, 2550, 4455, 4550</td></tr>
@@ -211,10 +257,52 @@
 
 <!-- FOOTER -->
 <footer>
-  Desarrollado por <strong>Gustavo Fernández</strong> —
+  Desarrollado por <strong>Gustavo Fernández (gustavoo.fernandez@gmail.com)</strong> —
   <a href="https://github.com/gustavofernandez/PICasp-IDE" target="_blank">GitHub</a> —
   Licencia GPL v3
 </footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <span class="close-btn" id="lightbox-close">✕</span>
+  <img id="lightbox-img" src="" alt="" />
+  <span class="caption" id="lightbox-caption"></span>
+</div>
+
+<script>
+  const lightbox      = document.getElementById('lightbox');
+  const lightboxImg   = document.getElementById('lightbox-img');
+  const lightboxCap   = document.getElementById('lightbox-caption');
+  const closeBtn      = document.getElementById('lightbox-close');
+
+  // Abrir al hacer clic en cualquier imagen de .screenshots
+  document.querySelectorAll('.screenshots img').forEach(img => {
+    img.addEventListener('click', () => {
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
+      lightboxCap.textContent = img.alt;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  // Cerrar al hacer clic en el fondo o en el botón ✕
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  lightbox.addEventListener('click', closeLightbox);
+  closeBtn.addEventListener('click', closeLightbox);
+
+  // La imagen en sí no cierra el lightbox al hacer clic sobre ella
+  lightboxImg.addEventListener('click', e => e.stopPropagation());
+
+  // Cerrar con ESC
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
 
 </body>
 </html>
