@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PICasp IDE</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      color: #222;
+    }
+
+    /* HERO */
+    header {
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 60px 20px 50px;
+      text-align: center;
+    }
+    header img.logo {
+      width: 80px;
+      margin-bottom: 20px;
+    }
+    header h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+    header p.tagline {
+      font-size: 1.15rem;
+      color: #555;
+      margin: 14px auto 30px;
+      max-width: 560px;
+    }
+    .btn-download {
+      display: inline-block;
+      background: #2563eb;
+      color: #fff;
+      padding: 14px 36px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-download:hover { background: #1d4ed8; }
+    .btn-secondary {
+      display: inline-block;
+      margin-left: 12px;
+      color: #2563eb;
+      font-size: 0.95rem;
+      text-decoration: none;
+      border: 1px solid #2563eb;
+      padding: 13px 24px;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .btn-secondary:hover { background: #eff6ff; }
+
+    /* SECCIONES */
+    section {
+      max-width: 960px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+    section h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 28px;
+      color: #1a1a1a;
+      border-left: 4px solid #2563eb;
+      padding-left: 12px;
+    }
+
+    /* CAPTURAS */
+    .screenshots {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .screenshots img {
+      width: 100%;
+      max-width: 440px;
+      border-radius: 10px;
+      border: 1px solid #e0e0e0;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    }
+
+    /* CARACTERÍSTICAS */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .feature-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 24px;
+    }
+    .feature-card .icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .feature-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
+    .feature-card p { font-size: 0.9rem; color: #555; line-height: 1.5; }
+
+    /* CHIPS */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+    }
+    thead { background: #2563eb; color: #fff; }
+    th, td { padding: 12px 16px; text-align: left; }
+    tbody tr:nth-child(even) { background: #f3f4f6; }
+    tbody tr:hover { background: #eff6ff; }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 36px 20px;
+      font-size: 0.85rem;
+      color: #888;
+      border-top: 1px solid #e0e0e0;
+      margin-top: 60px;
+    }
+    footer a { color: #2563eb; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<header>
+  <img class="logo" src="../assets/icon.png" alt="PICasp logo" onerror="this.style.display='none'"/>
+  <h1>PICasp IDE</h1>
+  <p class="tagline">
+    IDE y programador de escritorio para microcontroladores PIC de Microchip.
+    Editor, compilador XC8, programador USB y monitor serie, todo en uno.
+  </p>
+  <a class="btn-download"
+     href="https://github.com/gustavofernandez/PICasp-IDE/releases/latest"
+     target="_blank">
+    ⬇️ Descargar
+  </a>
+  <a class="btn-secondary"
+     href="https://github.com/gustavofernandez/PICasp-IDE"
+     target="_blank">
+    Ver en GitHub
+  </a>
+</header>
+
+<!-- CAPTURAS -->
+<section>
+  <h2>📸 Capturas de pantalla</h2>
+  <div class="screenshots">
+    <img src="../assets/screenshot-ide.png"  alt="Editor IDE PICasp" />
+    <img src="../assets/screenshot-gui.png"  alt="Panel programador PICasp" />
+  </div>
+</section>
+
+<!-- CARACTERÍSTICAS -->
+<section>
+  <h2>✨ Características</h2>
+  <div class="features">
+    <div class="feature-card">
+      <div class="icon">🖥️</div>
+      <h3>IDE integrado</h3>
+      <p>Editor Monaco (VS Code), compilación con MPLAB XC8, monitor serie y gestor de librerías vía GitHub.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">⚡</div>
+      <h3>Programador USB</h3>
+      <p>Soporte para USB-ICSP via Arduino Uno/Nano y Bootloader USB-Serial para PICasp Boards.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">📦</div>
+      <h3>HAL estilo Arduino</h3>
+      <p>API <code>picasp.h</code> con objetos Serial, Wire, SPI, EEPROM y DAC. Estructura <code>setup()</code> / <code>loop()</code>.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🔧</div>
+      <h3>Config Words visual</h3>
+      <p>Lectura, escritura y visualización de Fuses con interfaz gráfica por campo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CHIPS SOPORTADOS -->
+<section>
+  <h2>🔌 Chips soportados</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Modo</th>
+        <th>Familia</th>
+        <th>Chips</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>USB-ICSP</td><td>PIC18F</td><td>2455, 2550, 4455, 4550</td></tr>
+      <tr><td>USB-ICSP</td><td>PIC18F</td><td>242, 252, 442, 452</td></tr>
+      <tr><td>USB-ICSP</td><td>PIC18F</td><td>25K22</td></tr>
+      <tr><td>USB-ICSP</td><td>PIC16F</td><td>627A, 628A, 648A</td></tr>
+      <tr><td>USB-ICSP</td><td>PIC16F</td><td>873A, 874A, 876A, 877A</td></tr>
+      <tr><td>Bootloader</td><td>PIC18F</td><td>25K22, 2550, 252</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  Desarrollado por <strong>Gustavo Fernández</strong> —
+  <a href="https://github.com/gustavofernandez/PICasp-IDE" target="_blank">GitHub</a> —
+  Licencia GPL v3
+</footer>
+
+</body>
+</html>
