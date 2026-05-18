@@ -4,62 +4,74 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PICasp IDE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"/>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Roboto', 'Segoe UI', sans-serif;
       background: #f9f9f9;
       color: #222;
     }
 
     /* HERO */
     header {
-      background: #fff;
-      border-bottom: 1px solid #e0e0e0;
-      padding: 60px 20px 50px;
+      background: linear-gradient(135deg, #1e40af 0%, #2563eb 50%, #0ea5e9 100%);
+      border-bottom: none;
+      padding: 70px 20px 60px;
       text-align: center;
     }
     header img.logo {
       width: 80px;
       margin-bottom: 20px;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.18));
     }
     header h1 {
       font-size: 2.8rem;
       font-weight: 700;
-      color: #1a1a1a;
+      color: #ffffff;
+      letter-spacing: -0.5px;
     }
     header p.tagline {
       font-size: 1.15rem;
-      color: #555;
-      margin: 14px auto 30px;
+      color: rgba(255,255,255,0.85);
+      margin: 14px auto 32px;
       max-width: 560px;
+      font-weight: 400;
+      line-height: 1.6;
     }
     .btn-download {
       display: inline-block;
-      background: #2563eb;
-      color: #fff;
+      background: #ffffff;
+      color: #2563eb;
       padding: 14px 36px;
       border-radius: 8px;
       font-size: 1rem;
-      font-weight: 600;
+      font-weight: 700;
       text-decoration: none;
-      transition: background 0.2s;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
     }
-    .btn-download:hover { background: #1d4ed8; }
+    .btn-download:hover {
+      background: #eff6ff;
+      transform: translateY(-1px);
+    }
     .btn-secondary {
       display: inline-block;
       margin-left: 12px;
-      color: #2563eb;
+      color: #ffffff;
       font-size: 0.95rem;
       text-decoration: none;
-      border: 1px solid #2563eb;
-      padding: 13px 24px;
+      border: 2px solid rgba(255,255,255,0.7);
+      padding: 12px 24px;
       border-radius: 8px;
       font-weight: 500;
-      transition: background 0.2s;
+      transition: background 0.2s, transform 0.15s;
     }
-    .btn-secondary:hover { background: #eff6ff; }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.15);
+      transform: translateY(-1px);
+    }
 
     /* SECCIONES */
     section {
@@ -188,8 +200,8 @@
 
 <!-- HERO -->
 <header>
-  <img class="logo" src="assets/icon.ico" alt="PICasp logo" onerror="this.style.display='none'"/>
-  <h1>PICasp IDE</h1>
+  <img class="logo" src="../assets/icon.png" alt="PICasp logo" onerror="this.style.display='none'"/>
+  <h1>PICasp-IDE</h1>
   <p class="tagline">
     IDE y programador de escritorio para microcontroladores PIC de Microchip.
     Editor, compilador XC8, programador USB y monitor serie, todo en uno.
@@ -210,8 +222,8 @@
 <section>
   <h2>Capturas de pantalla</h2>
   <div class="screenshots">
-    <img src="https://raw.githubusercontent.com/gustavofernandez/PICasp-IDE/main/assets/screenshot-ide.png" alt="Editor IDE PICasp" />
-    <img src="https://raw.githubusercontent.com/gustavofernandez/PICasp-IDE/main/assets/screenshot-gui.png" alt="Panel programador PICasp" />
+    <img src="assets/screenshot-ide.png" alt="Editor IDE PICasp" />
+    <img src="assets/screenshot-gui.png" alt="Panel programador PICasp" />
   </div>
 </section>
 
@@ -270,12 +282,11 @@
 </div>
 
 <script>
-  const lightbox      = document.getElementById('lightbox');
-  const lightboxImg   = document.getElementById('lightbox-img');
-  const lightboxCap   = document.getElementById('lightbox-caption');
-  const closeBtn      = document.getElementById('lightbox-close');
+  const lightbox    = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxCap = document.getElementById('lightbox-caption');
+  const closeBtn    = document.getElementById('lightbox-close');
 
-  // Abrir al hacer clic en cualquier imagen de .screenshots
   document.querySelectorAll('.screenshots img').forEach(img => {
     img.addEventListener('click', () => {
       lightboxImg.src = img.src;
@@ -286,7 +297,6 @@
     });
   });
 
-  // Cerrar al hacer clic en el fondo o en el botón ✕
   function closeLightbox() {
     lightbox.classList.remove('active');
     document.body.style.overflow = '';
@@ -294,14 +304,8 @@
 
   lightbox.addEventListener('click', closeLightbox);
   closeBtn.addEventListener('click', closeLightbox);
-
-  // La imagen en sí no cierra el lightbox al hacer clic sobre ella
   lightboxImg.addEventListener('click', e => e.stopPropagation());
-
-  // Cerrar con ESC
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeLightbox();
-  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 </script>
 
 </body>
