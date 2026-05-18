@@ -114,9 +114,9 @@ picasp/
 │   ├── xc8-modal.js         # Modal de instalación guiada de XC8
 │   └── bl-modal.js          # Modal para grabar bootloader en PICasp Boards
 ├── python/
-│   ├── pic_flash.py         # Programador ICSP via Arduino (PIC18F y PIC16F)
-│   ├── pic_bl_flash.py      # Programador tipo TinyBLD via USB-Serial (PICasp Boards)
-│   ├── pic_build.py         # Wrapper de compilación XC8
+│   ├── pic_flash.exe        # Programador ICSP via Arduino (PIC18F y PIC16F)
+│   ├── pic_bl_flash.exe     # Programador tipo TinyBLD via USB-Serial (PICasp Boards)
+│   ├── pic_build.exe        # Wrapper de compilación XC8
 │   └── firmware/
 │       ├── picasp_firmware.hex   # Firmware precompilado para Arduino Uno/Nano
 │       ├── bootloader_k22.hex    # Bootloader PICasp Board K22
