@@ -1,0 +1,28 @@
+GNU LESSER GENERAL PUBLIC LICENSE
+Version 3, 29 June 2007
+
+Copyright (C) 2026 Gustavo Fernández (gustavoo.fernandez@gmail.com)
+
+Everyone is permitted to copy and distribute verbatim copies of this
+license document, but changing it is not allowed.
+
+This version of the GNU Lesser General Public License incorporates the
+terms and conditions of version 3 of the GNU General Public License,
+supplemented by the additional permissions listed below.
+
+The GNU Lesser General Public License allows you to use, modify, and
+distribute this library as part of your own application, even if your
+application is not distributed under the GPL, provided that:
+
+  - You include a copy of this license.
+  - You make clear that this library is used and where to obtain it.
+  - You do not modify the library itself without releasing the changes
+    under LGPL.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with this library. If not, see <https://www.gnu.org/licenses/>.
