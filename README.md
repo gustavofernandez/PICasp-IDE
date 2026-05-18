@@ -101,7 +101,7 @@ npm start
 ---
 
 ## Estructura del proyecto
-
+```
 picasp/
 ├── main.js                  # Proceso principal Electron (IPC, ventana, puertos serie)
 ├── preload.js               # Puente seguro renderer ↔ main (contextIsolation)
@@ -129,7 +129,8 @@ picasp/
 ├── arduino/
 │   └── PICasp.ino           # Firmware del programador USB-ICSP para Arduino Uno/Nano
 └── assets/                  # Íconos y recursos estáticos
-
+...
+```
 ---
 
 ## Firmware Arduino (modo USB-ICSP)
