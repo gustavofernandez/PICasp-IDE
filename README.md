@@ -129,7 +129,6 @@ picasp/
 ├── arduino/
 │   └── PICasp.ino           # Firmware del programador USB-ICSP para Arduino Uno/Nano
 └── assets/                  # Íconos y recursos estáticos
-...
 ```
 ---
 
