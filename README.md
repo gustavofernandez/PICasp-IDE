@@ -141,8 +141,8 @@ Para usar el modo USB-ICSP necesitás grabar el firmware `PICasp` en un Arduino 
 **Conexiones Arduino Uno/Nano → PIC (ICSP LVP):**
 ```
 | Arduino Uno/Nano  | Señal PIC     | Notas 
-| D2 (RX)           | TX            | Disponible para comunicacion serial
-| D3 (TX)           | RX            | Disponible para comunicacion serial
+| D2 (RX)           | TX            | Disponible para comunicacion serial (57600 BAUD)
+| D3 (TX)           | RX            | Disponible para comunicacion serial (57600 BAUD)
 | D4                | MCLR          | Via resistencia pull-up 10 kΩ a VCC 
 | D5                | PGM           | Via resistencia 10 kΩ a GND 
 | D6                | PGD           |
