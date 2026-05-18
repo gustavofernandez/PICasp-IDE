@@ -3,7 +3,11 @@
 **PICasp** es un entorno de desarrollo integrado (IDE) y programador de escritorio para microcontroladores PIC de Microchip que se encuentra en constante desarrollo, construido con Electron. Combina en una sola aplicación un editor de código, compilador con MPLAB XC8, programador USB-ICSP / Bootloader USB-Serial y monitor serie.
 
 
-![PICasp IDE](assets/screenshot.png)
+![PICasp IDE](assets/screenshot-ide.png)
+
+---
+
+![PICasp IDE](assets/screenshot-gui.png)
 
 ---
 
