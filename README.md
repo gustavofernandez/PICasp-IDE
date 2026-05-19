@@ -1,4 +1,4 @@
-# PICasp - [Descargar .EXE](https://github.com/gustavofernandez/PICasp-IDE/releases/tag/v1.0.0)
+# PICasp - [Descargar .Exe](https://github.com/gustavofernandez/PICasp-IDE/releases/tag/v1.0.0)
 
 **PICasp** es un entorno de desarrollo integrado (IDE) y programador de escritorio para microcontroladores PIC de Microchip que se encuentra en constante desarrollo, construido con Electron. Combina en una sola aplicación un editor de código, compilador con MPLAB XC8, programador USB-ICSP / Bootloader USB-Serial y monitor serie.
 
